@@ -1,7 +1,9 @@
 function Column(id, name) {
     var self = this;
+
     this.id = id;
     this.name = name;
+    this.element = createColumn();
 
     function createColumn() {
         // TWORZENIE NOWYCH WĘZŁÓW
@@ -16,7 +18,7 @@ function Column(id, name) {
             self.deleteColumn();
         });
 
-        $columnAddCard.click(function(event) {
+        columnAddCard.click(function(event) {
             var cardName = prompt("Enter the name of the card");
             event.preventDefault();
             $.ajax({
@@ -42,7 +44,11 @@ function Column(id, name) {
     }
 }
 Column.prototype = {
+    createCard: function(card) {
+        this.element.children('ul').append(card.element);
+    },
     deleteColumn: function() {
+        this.element.remove();
         var self = this;
         $.ajax({
             url: baseUrl + '/column/' + self.id,
